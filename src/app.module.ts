@@ -1,0 +1,56 @@
+import { Module } from '@nestjs/common'
+import { join } from 'path'
+
+// IMPORT TYPEORM
+import { TypeOrmModule } from '@nestjs/typeorm'
+
+// IMPORT THROTTLER
+import { ThrottlerModule } from '@nestjs/throttler'
+
+// IMPORT GRAPHQL
+import { GraphQLModule } from '@nestjs/graphql'
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
+
+// IMPORT MODULES
+import { UsersModule } from './modules/users/users.module'
+import { AuthModule } from './modules/auth/auth.module'
+
+// IMPORT ENTITIES
+import { UserEntity } from './modules/users/entities/user.entity'
+
+// IMPORT DOTENV
+import * as dotenv from 'dotenv'
+dotenv.config()
+
+@Module({
+  imports: [
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 10,
+    }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema/schema.gql'),
+      sortSchema: true,
+      playground: false,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      context: ({ req }) => ({ req }),
+    }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DATABASE_HOST,
+      port: +process.env.DATABASE_PORT,
+      database: process.env.DATABASE_NAME,
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      entities: [UserEntity],
+      synchronize: true,
+    }),
+    UsersModule,
+    AuthModule,
+  ],
+  controllers: [],
+  providers: [],
+})
+export class AppModule {}

@@ -1,0 +1,104 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AuthInput {
+  email: String!
+  password: String!
+}
+
+type AuthType {
+  token: String!
+  user: User!
+}
+
+input CreateUserInput {
+  active: Boolean = true
+  createdAt: DateTime
+  createdUser: Int
+  email: String!
+  name: String!
+  password: String
+  phoneNumber: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input FilterUserInput {
+  active: Boolean
+  createdAt: DateTime
+  email: String
+  id: Int
+  name: String
+  order: OrderByFilterInput
+  password: String
+  phoneNumber: String
+  typeUser: Float
+  updatedAt: DateTime
+}
+
+type Mutation {
+  authenticate(data: AuthInput!): AuthType!
+  createAdminOrRoot(data: CreateUserInput!): User!
+  createUser(data: CreateUserInput!): User!
+  deleteUser(id: Float!): User!
+  updateUser(data: UpdateUserInput!, id: Float!): User!
+  updateUserPassword(data: updatePasswordInput!): User!
+}
+
+input OrderByFilterInput {
+  key: String! = "id"
+  prefix: String
+  value: String! = "ASC"
+}
+
+type PageInfo {
+  count: Int!
+  currentPage: Int!
+  pagesCount: Int!
+  perPage: Int!
+}
+
+type PaginatedUserResponse {
+  items: [User!]!
+  pagination: PageInfo!
+}
+
+type Query {
+  user(active: Boolean, id: Float!): User!
+  users(currentPage: Int = 1, filters: FilterUserInput!, perPage: Int = 10): PaginatedUserResponse!
+}
+
+input UpdateUserInput {
+  email: String!
+  name: String
+  phoneNumber: String
+  updatedAt: DateTime
+  updatedUser: Int
+}
+
+type User {
+  active: Boolean!
+  createdAt: DateTime!
+  createdUser: Int!
+  deletedAt: DateTime!
+  deletedUser: Int
+  email: String!
+  id: Int!
+  name: String!
+  password: String
+  phoneNumber: String!
+  typeUser: Float!
+  updatedAt: DateTime!
+  updatedUser: Int
+}
+
+input updatePasswordInput {
+  confirmNewPassword: String!
+  id: Int!
+  newPassword: String!
+  password: String!
+}
