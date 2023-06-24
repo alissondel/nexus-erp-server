@@ -6,10 +6,11 @@ import { ConflictInterceptor } from './commom/errors/interceptors/conflict.inter
 import { UnauthorizedInterceptor } from './commom/errors/interceptors/unauthorized.interceptors'
 import { NotFoundInterceptor } from './commom/errors/interceptors/notfound.interceptors'
 
+import helmet from 'helmet'
+import { NestExpressApplication } from '@nestjs/platform-express'
+
 // IMPORT DOTENV
 import * as dotenv from 'dotenv'
-
-import helmet from 'helmet'
 dotenv.config()
 
 const port = normalizePort(process.env.PORT || '8080')
@@ -24,7 +25,7 @@ const configCors = {
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create<NestExpressApplication>(AppModule)
 
   app.enableCors(configCors)
   app.use(helmet())

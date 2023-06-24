@@ -15,9 +15,11 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 // IMPORT MODULES
 import { UsersModule } from './modules/users/users.module'
 import { AuthModule } from './modules/auth/auth.module'
+import { UserFilesModule } from './modules/user-files/user-files.module'
 
 // IMPORT ENTITIES
 import { UserEntity } from './modules/users/entities/user.entity'
+import { UserFileEntity } from './modules/user-files/entities/user-file.entity'
 
 // IMPORT DOTENV
 import * as dotenv from 'dotenv'
@@ -44,11 +46,12 @@ dotenv.config()
       database: process.env.DATABASE_NAME,
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
-      entities: [UserEntity],
+      entities: [UserEntity, UserFileEntity],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
+    UserFilesModule,
   ],
   controllers: [],
   providers: [],
