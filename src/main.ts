@@ -1,4 +1,6 @@
 import { NestFactory } from '@nestjs/core'
+import { NestExpressApplication } from '@nestjs/platform-express'
+
 import { AppModule } from './app.module'
 
 // IMPORT INTERCEPTORS
@@ -6,8 +8,8 @@ import { ConflictInterceptor } from './commom/errors/interceptors/conflict.inter
 import { UnauthorizedInterceptor } from './commom/errors/interceptors/unauthorized.interceptors'
 import { NotFoundInterceptor } from './commom/errors/interceptors/notfound.interceptors'
 
+// IMPORT HELMET
 import helmet from 'helmet'
-import { NestExpressApplication } from '@nestjs/platform-express'
 
 // IMPORT DOTENV
 import * as dotenv from 'dotenv'

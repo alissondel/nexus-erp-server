@@ -3,11 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, ILike, Like, Between } from 'typeorm'
 
 // IMPORT DTO'S AND ENTITY USER
+import { UserType } from './enum/user-type.enum'
+import { UserEntity } from './entities/user.entity'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { FilterUserInput } from './dto/filter-user.input'
-import { UserEntity } from './entities/user.entity'
-import { UserType } from './enum/user-type.enum'
+import { updatePasswordInput } from './dto/update-password.input'
 
 // IMPORT PAGINATION
 import Paginate from '../../utils/paginations/Paginate'
@@ -25,7 +26,6 @@ import {
 } from 'src/utils/token/base-64-converter'
 
 import { Context } from 'vm'
-import { updatePasswordInput } from './dto/update-password.input'
 
 @Injectable()
 export class UsersService {
