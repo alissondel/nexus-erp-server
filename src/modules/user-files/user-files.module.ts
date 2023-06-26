@@ -10,5 +10,6 @@ import { UserFileEntity } from './entities/user-file.entity'
   imports: [TypeOrmModule.forFeature([UserFileEntity])],
   controllers: [UserFilesController],
   providers: [UserFilesService],
+  exports: [UserFilesService],
 })
 export class UserFilesModule {}

@@ -1,7 +1,8 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql'
+import { UserFileEntity } from 'src/modules/user-files/entities/user-file.entity'
 import PaginatedResponse from 'src/utils/paginations/dto/PaginatedResponse'
 
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @ObjectType('User')
 @Entity('user')
@@ -57,6 +58,9 @@ export class UserEntity {
   @Column({ name: 'deleted_user', type: 'integer', nullable: true })
   @Field(() => Int, { nullable: true })
   deletedUser!: number
+
+  @OneToMany(() => UserFileEntity, (userFile) => userFile.user)
+  userFiles: UserFileEntity[]
 }
 
 @ObjectType()

@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { UserEntity } from 'src/modules/users/entities/user.entity'
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 
 @Entity('user_file')
 export class UserFileEntity {
@@ -16,4 +23,14 @@ export class UserFileEntity {
 
   @Column({ nullable: false })
   url: string
+
+  @Column()
+  userId: number
+
+  @ManyToOne(() => UserEntity, (user) => user.userFiles)
+  @JoinColumn({
+    name: 'userId',
+    referencedColumnName: 'id',
+  })
+  user: UserEntity
 }
