@@ -1,8 +1,8 @@
-import { Field, InputType, Int } from '@nestjs/graphql'
+import { InputType, Int, Field } from '@nestjs/graphql'
 import { OrderByFilterInput } from 'src/utils/filters/OrderByFilterInput'
 
 @InputType()
-export class FilterUserInput {
+export class FilterCityInput {
   @Field(() => Int, { nullable: true })
   id!: number
 
@@ -10,22 +10,13 @@ export class FilterUserInput {
   name!: string
 
   @Field({ nullable: true })
-  phoneNumber!: string
-
-  @Field({ nullable: true })
-  email!: string
-
-  @Field({ nullable: true })
-  password!: string
-
-  @Field({ nullable: true })
-  typeUser!: number
-
-  @Field({ nullable: true })
-  cityId!: number
-
-  @Field({ nullable: true })
   active!: boolean
+
+  @Field({ nullable: true })
+  stateId!: number
+
+  @Field({ nullable: true })
+  state!: string
 
   @Field({ nullable: true })
   createdAt!: Date

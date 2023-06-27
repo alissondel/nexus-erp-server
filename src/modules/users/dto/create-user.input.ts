@@ -36,6 +36,11 @@ export class CreateUserInput {
   // @Field({ nullable: false })
   // typeUser?: number
 
+  @IsNumber()
+  @IsNotEmpty({ message: 'Código da cidade é Inexistente!' })
+  @Field(() => Int)
+  cityId: number
+
   @IsBoolean()
   @IsNotEmpty({ message: 'Precisa ser verdadeiro ou falso' })
   @Field({ nullable: true, defaultValue: true })

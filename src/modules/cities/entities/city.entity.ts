@@ -1,8 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql'
-import { CityEntity } from 'src/modules/cities/entities/city.entity'
-import { UserFileEntity } from 'src/modules/user-files/entities/user-file.entity'
+import { StateEntity } from 'src/modules/states/entities/state.entity'
+import { UserEntity } from 'src/modules/users/entities/user.entity'
 import PaginatedResponse from 'src/utils/paginations/dto/PaginatedResponse'
-
 import {
   Column,
   Entity,
@@ -12,9 +11,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
-@ObjectType('User')
-@Entity('user')
-export class UserEntity {
+@ObjectType('City')
+@Entity('city')
+export class CityEntity {
   @PrimaryGeneratedColumn('increment')
   @Field(() => Int)
   id: number
@@ -23,29 +22,9 @@ export class UserEntity {
   @Field()
   name: string
 
-  @Column({ unique: true })
-  @Field()
-  email: string
-
-  @Column({ nullable: true })
-  @Field({ nullable: true })
-  password: string
-
-  @Column({ name: 'phone_number' })
-  @Field()
-  phoneNumber: string
-
-  @Column({ name: 'type_user', nullable: false })
-  @Field()
-  typeUser: number
-
   @Column()
   @Field()
   active: boolean
-
-  @Column()
-  @Field(() => Int)
-  cityId: number
 
   @Column({ name: 'created_at', type: 'timestamptz' })
   @Field()
@@ -56,32 +35,36 @@ export class UserEntity {
   createdUser!: number
 
   @Column({ name: 'updated_at', type: 'timestamptz', nullable: true })
-  @Field()
-  updatedAt: Date
+  @Field({ nullable: true })
+  updatedAt?: Date
 
   @Column({ name: 'updated_user', type: 'integer', nullable: true })
   @Field(() => Int, { nullable: true })
   updatedUser!: number
 
   @Column({ name: 'deleted_at', type: 'timestamptz', nullable: true })
-  @Field()
-  deletedAt: Date
+  @Field({ nullable: true })
+  deletedAt?: Date
 
   @Column({ name: 'deleted_user', type: 'integer', nullable: true })
   @Field(() => Int, { nullable: true })
   deletedUser!: number
 
-  @OneToMany(() => UserFileEntity, (userFile) => userFile.user)
-  userFiles: UserFileEntity[]
+  @Column()
+  @Field(() => Int)
+  stateId: number
 
-  @ManyToOne(() => CityEntity, (city) => city.users)
+  @ManyToOne(() => StateEntity, (state) => state.cities)
   @JoinColumn({
-    name: 'cityId',
+    name: 'stateId',
     referencedColumnName: 'id',
   })
-  @Field(() => CityEntity)
-  city: CityEntity
+  @Field(() => StateEntity)
+  state: StateEntity
+
+  @OneToMany(() => UserEntity, (user) => user.city)
+  users?: UserEntity[]
 }
 
 @ObjectType()
-export class PaginatedUserResponse extends PaginatedResponse(UserEntity) {}
+export class PaginatedCityResponse extends PaginatedResponse(CityEntity) {}

@@ -40,6 +40,9 @@ export class UsersService {
         id,
         active,
       },
+      relations: {
+        city: true,
+      },
     })
 
     if (!user) {
@@ -75,6 +78,9 @@ export class UsersService {
     const [items, count]: any = await this.userRepository.findAndCount({
       skip: perPage * (currentPage - 1),
       take: perPage,
+      relations: {
+        city: true,
+      },
       where: {
         ...(filters.id && { id: filters.id }),
         ...(filters.name && { name: ILike(`%${filters.name}%`) }),
@@ -83,6 +89,7 @@ export class UsersService {
         }),
         ...(filters.email && { email: Like(`%${filters.email}%`) }),
         ...(filters.password && { password: ILike(`%${filters.password}%`) }),
+        ...(filters.cityId && { cityId: filters.cityId }),
         ...(filters.createdAt &&
           filters.updatedAt && {
             createdAt: Between(
@@ -106,7 +113,8 @@ export class UsersService {
   }
 
   async createUser(data: CreateUserInput): Promise<UserEntity> {
-    const { email, password, active, createdAt, createdUser, ...rest } = data
+    const { email, cityId, password, active, createdAt, createdUser, ...rest } =
+      data
 
     const cryptPassword = await encryptPassword(password)
 
@@ -114,6 +122,7 @@ export class UsersService {
       ...rest,
       email: email.trim(),
       password: cryptPassword,
+      cityId: +cityId,
       active: true,
       typeUser: 1,
       createdAt: new Date(),
@@ -133,7 +142,8 @@ export class UsersService {
     data: CreateUserInput,
     context: Context,
   ): Promise<UserEntity> {
-    const { email, password, active, createdAt, createdUser, ...rest } = data
+    const { email, cityId, password, active, createdAt, createdUser, ...rest } =
+      data
 
     const cryptPassword = await encryptPassword(password)
 
@@ -141,10 +151,17 @@ export class UsersService {
 
     const decode = DecodeToken(token)
 
+    if (+decode.typeUser === UserType.User) {
+      throw new NotFoundError(
+        'Usuario comum não pode cadastrar usuário admin ou root!',
+      )
+    }
+
     const createdUserData = {
       ...rest,
       email: email.trim(),
       password: cryptPassword,
+      cityId: +cityId,
       active: true,
       typeUser: decode.typeUser === 2 ? UserType.Root : UserType.Admin,
       createdAt: new Date(),
@@ -165,7 +182,7 @@ export class UsersService {
     data: UpdateUserInput,
     context: Context,
   ): Promise<UserEntity> {
-    const { email, updatedAt, updatedUser, ...rest } = data
+    const { email, cityId, updatedAt, updatedUser, ...rest } = data
 
     const user = await this.findOne(id)
 
@@ -175,6 +192,7 @@ export class UsersService {
     const updatedUserData = {
       ...rest,
       email: email.trim(),
+      cityId: +cityId,
       typeUser: +decode.typeUser,
       updatedAt: new Date(),
       updatedUser: +decode.id,

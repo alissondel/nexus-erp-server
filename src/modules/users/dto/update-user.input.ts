@@ -42,6 +42,12 @@ export class UpdateUserInput {
   // typeUser?: number
 
   @IsOptional()
+  @IsNumber()
+  @IsNotEmpty({ message: 'Numero Inexistente!' })
+  @Field(() => Int)
+  cityId?: number
+
+  @IsOptional()
   @IsDate()
   @Field({ nullable: true })
   updatedAt!: Date
