@@ -25,7 +25,7 @@ export class UserFilesController {
   async getFile(@Param('filename') filename: string, @Res() res: Response) {
     const regex = /\\/
 
-    const filePath = join(__dirname, '../../../upload/files')
+    const filePath = join(__dirname, '../../../public/upload/user-files')
     const teste = filePath.slice(0, 200) + regex + filename
     res.sendFile(teste)
   }
