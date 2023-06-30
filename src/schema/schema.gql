@@ -12,6 +12,23 @@ type AuthType {
   user: User!
 }
 
+type Brand {
+  active: Boolean!
+  createdAt: DateTime!
+  createdUser: Int!
+  deletedAt: DateTime!
+  deletedUser: Int
+  description: String!
+  id: Int!
+  updatedAt: DateTime!
+  updatedUser: Int
+}
+
+type Category {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type City {
   active: Boolean!
   createdAt: DateTime!
@@ -26,6 +43,18 @@ type City {
   updatedUser: Int
 }
 
+input CreateBrandInput {
+  active: Boolean = true
+  createdAt: DateTime
+  createdUser: Int
+  description: String!
+}
+
+input CreateCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 input CreateCityInput {
   active: Boolean = true
   createdAt: DateTime
@@ -34,12 +63,27 @@ input CreateCityInput {
   stateId: Int!
 }
 
+input CreateGroupInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateProductInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 input CreateStateInput {
   active: Boolean = true
   createdAt: DateTime
   createdUser: Int
   name: String!
   uf: String!
+}
+
+input CreateSubGroupInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
 }
 
 input CreateUserInput {
@@ -57,6 +101,15 @@ input CreateUserInput {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+input FilterBrandInput {
+  active: Boolean
+  createdAt: DateTime
+  description: String
+  id: Int
+  order: OrderByFilterInput
+  updatedAt: DateTime
+}
 
 input FilterCityInput {
   active: Boolean
@@ -93,17 +146,37 @@ input FilterUserInput {
   updatedAt: DateTime
 }
 
+type Group {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Mutation {
   authenticate(data: AuthInput!): AuthType!
   createAdminOrRoot(data: CreateUserInput!): User!
+  createBrand(data: CreateBrandInput!): Brand!
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
   createCity(data: CreateCityInput!): City!
+  createGroup(createGroupInput: CreateGroupInput!): Group!
+  createProduct(createProductInput: CreateProductInput!): Product!
   createState(data: CreateStateInput!): State!
+  createSubGroup(createSubGroupInput: CreateSubGroupInput!): SubGroup!
   createUser(data: CreateUserInput!): User!
+  deleteBrand(id: Float!): Brand!
   deleteCity(id: Float!): City!
   deleteState(id: Float!): State!
   deleteUser(id: Float!): User!
+  removeCategory(id: Int!): Category!
+  removeGroup(id: Int!): Group!
+  removeProduct(id: Int!): Product!
+  removeSubGroup(id: Int!): SubGroup!
+  updateBrand(data: UpdateBrandInput!, id: Float!): Brand!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   updateCity(data: UpdateCityInput!, id: Float!): City!
+  updateGroup(updateGroupInput: UpdateGroupInput!): Group!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
   updateState(data: UpdateStateInput!, id: Float!): State!
+  updateSubGroup(updateSubGroupInput: UpdateSubGroupInput!): SubGroup!
   updateUser(data: UpdateUserInput!, id: Float!): User!
   updateUserPassword(data: updatePasswordInput!): User!
 }
@@ -121,6 +194,11 @@ type PageInfo {
   perPage: Int!
 }
 
+type PaginatedBrandResponse {
+  items: [Brand!]!
+  pagination: PageInfo!
+}
+
 type PaginatedCityResponse {
   items: [City!]!
   pagination: PageInfo!
@@ -136,11 +214,26 @@ type PaginatedUserResponse {
   pagination: PageInfo!
 }
 
+type Product {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
+  brand(active: Boolean, id: Float!): Brand!
+  brands(currentPage: Int = 1, filters: FilterBrandInput!, perPage: Int = 10): PaginatedBrandResponse!
+  categories: [Category!]!
+  category(id: Int!): Category!
   cities(currentPage: Int = 1, filters: FilterCityInput!, perPage: Int = 10): PaginatedCityResponse!
   city(active: Boolean, id: Float!): City!
+  group(id: Int!): Group!
+  groups: [Group!]!
+  product(id: Int!): Product!
+  products: [Product!]!
   state(active: Boolean, id: Float!): State!
   states(currentPage: Int = 1, filters: FilterStateInput!, perPage: Int = 10): PaginatedStateResponse!
+  subGroup(id: Int!): SubGroup!
+  subGroups: [SubGroup!]!
   user(active: Boolean, id: Float!): User!
   users(currentPage: Int = 1, filters: FilterUserInput!, perPage: Int = 10): PaginatedUserResponse!
 }
@@ -158,6 +251,23 @@ type State {
   updatedUser: Int
 }
 
+type SubGroup {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateBrandInput {
+  description: String
+  updatedAt: DateTime
+  updatedUser: Int
+}
+
+input UpdateCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
 input UpdateCityInput {
   name: String!
   stateId: Int!
@@ -165,11 +275,29 @@ input UpdateCityInput {
   updatedUser: Int
 }
 
+input UpdateGroupInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateProductInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
 input UpdateStateInput {
   name: String
   uf: String
   updatedAt: DateTime
   updatedUser: Int
+}
+
+input UpdateSubGroupInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
 
 input UpdateUserInput {
