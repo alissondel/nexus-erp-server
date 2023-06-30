@@ -30,6 +30,9 @@ import { UserFileEntity } from './modules/user-files/entities/user-file.entity'
 import { StateEntity } from './modules/states/entities/state.entity'
 import { CityEntity } from './modules/cities/entities/city.entity'
 import { BrandEntity } from './modules/brands/entities/brand.entity'
+import { CategoryEntity } from './modules/categories/entities/category.entity'
+import { GroupEntity } from './modules/groups/entities/group.entity'
+import { SubGroupEntity } from './modules/sub_groups/entities/sub_group.entity'
 
 // IMPORT DOTENV
 import * as dotenv from 'dotenv'
@@ -62,6 +65,9 @@ dotenv.config()
         StateEntity,
         CityEntity,
         BrandEntity,
+        CategoryEntity,
+        GroupEntity,
+        SubGroupEntity,
       ],
       synchronize: true,
     }),
