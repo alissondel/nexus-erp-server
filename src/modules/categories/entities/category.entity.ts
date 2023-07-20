@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql'
+import { ProductEntity } from 'src/modules/products/entities/product.entity'
 import PaginatedResponse from 'src/utils/paginations/dto/PaginatedResponse'
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
 
 @ObjectType('Category')
 @Entity('category')
@@ -40,6 +41,9 @@ export class CategoryEntity {
   @Column({ name: 'deleted_user', type: 'integer', nullable: true })
   @Field(() => Int, { nullable: true })
   deletedUser!: number
+
+  @OneToMany(() => ProductEntity, (product) => product.category)
+  products?: ProductEntity[]
 }
 
 @ObjectType()

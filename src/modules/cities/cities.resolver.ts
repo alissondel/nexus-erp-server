@@ -28,7 +28,7 @@ export class CitiesResolver {
   }
 
   @Query(() => PaginatedCityResponse)
-  @UseGuards(GqlAuthGuard)
+  // @UseGuards(GqlAuthGuard)
   async cities(
     @Args() paginationArgs: PaginationArgs,
     @Args('filters') filters: FilterCityInput,

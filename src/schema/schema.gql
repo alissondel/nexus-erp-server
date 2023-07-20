@@ -80,8 +80,36 @@ input CreateGroupInput {
 }
 
 input CreateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  active: Boolean = true
+  altura: Float!
+  amount: Float!
+  brandId: Float!
+  categoryId: Float!
+  cfopOther: Float
+  cfopSame: Float
+  color: String!
+  comprimento: Float!
+  condicao: String!
+  country: Float!
+  createdAt: DateTime
+  createdUser: Int
+  csosn: Float
+  description: String!
+  ean: String!
+  largura: Float!
+  material: Float!
+  measure: String!
+  name: String!
+  ncm: Float
+  origem: Float
+  peso: Float!
+  preEncomenda: Boolean = false
+  price: Float!
+  skuPrincipal: String
+  stock: Float!
+  typeWarranty: Float!
+  unidadeMedida: String
+  warranty: Float!
 }
 
 input CreateStateInput {
@@ -97,6 +125,21 @@ input CreateSubGroupInput {
   createdAt: DateTime
   createdUser: Int
   description: String!
+}
+
+input CreateSupplierInput {
+  active: Boolean = true
+  address: String!
+  addressNumber: Float!
+  categorySupplier: String!
+  cep: String!
+  cnpj: String!
+  createdAt: DateTime
+  createdUser: Int
+  district: String!
+  email: String!
+  name: String!
+  phoneNumber: String!
 }
 
 input CreateUserInput {
@@ -153,6 +196,41 @@ input FilterGroupInput {
   updatedAt: DateTime
 }
 
+input FilterProductInput {
+  active: Boolean
+  altura: Float
+  amount: Float
+  brandId: Float
+  categoryId: Float
+  cfopOther: Float
+  cfopSame: Float
+  color: String
+  comprimento: Float
+  condicao: String
+  country: Float
+  createdAt: DateTime
+  csosn: Float
+  description: String
+  ean: String
+  id: Int
+  largura: Float
+  material: Float
+  measure: String
+  name: String
+  ncm: Float
+  order: OrderByFilterInput
+  origem: Float
+  peso: Float
+  preEncomenda: Boolean
+  price: Float
+  skuPrincipal: String
+  stock: Float
+  typeWarranty: Float
+  unidadeMedida: String
+  updatedAt: DateTime
+  warranty: Float
+}
+
 input FilterStateInput {
   active: Boolean
   createdAt: DateTime
@@ -169,6 +247,23 @@ input FilterSubGroupInput {
   description: String
   id: Int
   order: OrderByFilterInput
+  updatedAt: DateTime
+}
+
+input FilterSupplierInput {
+  active: Boolean
+  address: String
+  addressNumber: Float
+  categorySupplier: String
+  cep: String
+  cnpj: String
+  createdAt: DateTime
+  district: String
+  email: String
+  id: Int
+  name: String
+  order: OrderByFilterInput
+  phoneNumber: String
   updatedAt: DateTime
 }
 
@@ -205,25 +300,28 @@ type Mutation {
   createCategory(data: CreateCategoryInput!): Category!
   createCity(data: CreateCityInput!): City!
   createGroup(data: CreateGroupInput!): Group!
-  createProduct(createProductInput: CreateProductInput!): Product!
+  createProduct(data: CreateProductInput!): Product!
   createState(data: CreateStateInput!): State!
   createSubGroup(data: CreateSubGroupInput!): SubGroup!
+  createSupplier(data: CreateSupplierInput!): Supplier!
   createUser(data: CreateUserInput!): User!
   deleteBrand(id: Float!): Brand!
   deleteCategory(id: Float!): Category!
   deleteCity(id: Float!): City!
   deleteGroup(id: Float!): Group!
+  deleteProduct(id: Float!): Product!
   deleteState(id: Float!): State!
   deleteSubGroup(id: Float!): SubGroup!
+  deleteSupplier(id: Float!): Supplier!
   deleteUser(id: Float!): User!
-  removeProduct(id: Int!): Product!
   updateBrand(data: UpdateBrandInput!, id: Float!): Brand!
   updateCategory(data: UpdateCategoryInput!, id: Float!): Category!
   updateCity(data: UpdateCityInput!, id: Float!): City!
   updateGroup(data: UpdateGroupInput!, id: Float!): Group!
-  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  updateProduct(data: UpdateProductInput!, id: Float!): Product!
   updateState(data: UpdateStateInput!, id: Float!): State!
   updateSubGroup(data: UpdateSubGroupInput!, id: Float!): SubGroup!
+  updateSupplier(data: UpdateSupplierInput!, id: Float!): Supplier!
   updateUser(data: UpdateUserInput!, id: Float!): User!
   updateUserPassword(data: updatePasswordInput!): User!
 }
@@ -261,6 +359,11 @@ type PaginatedGroupResponse {
   pagination: PageInfo!
 }
 
+type PaginatedProductResponse {
+  items: [Product!]!
+  pagination: PageInfo!
+}
+
 type PaginatedStateResponse {
   items: [State!]!
   pagination: PageInfo!
@@ -271,17 +374,58 @@ type PaginatedSubGroupResponse {
   pagination: PageInfo!
 }
 
+type PaginatedSupplierResponse {
+  items: [Supplier!]!
+  pagination: PageInfo!
+}
+
 type PaginatedUserResponse {
   items: [User!]!
   pagination: PageInfo!
 }
 
 type Product {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  active: Boolean!
+  altura: Float!
+  amount: Float!
+  brand: Brand!
+  brandId: Float!
+  category: Category!
+  categoryId: Float!
+  cfopOther: Float!
+  cfopSame: Float!
+  color: String!
+  comprimento: Float!
+  condicao: String!
+  country: Float!
+  createdAt: DateTime!
+  createdUser: Int!
+  csosn: Float!
+  deletedAt: DateTime!
+  deletedUser: Int
+  description: String!
+  ean: String!
+  id: Int!
+  largura: Float!
+  material: Float!
+  measure: String!
+  name: String!
+  ncm: Float!
+  origem: Float!
+  peso: Float!
+  preEncomenda: Boolean!
+  price: Float!
+  skuPrincipal: String!
+  stock: Float!
+  typeWarranty: Float!
+  unidadeMedida: String!
+  updatedAt: DateTime!
+  updatedUser: Int
+  warranty: Float!
 }
 
 type Query {
+  Suppliers(currentPage: Int = 1, filters: FilterSupplierInput!, perPage: Int = 10): PaginatedSupplierResponse!
   brand(active: Boolean, id: Float!): Brand!
   brands(currentPage: Int = 1, filters: FilterBrandInput!, perPage: Int = 10): PaginatedBrandResponse!
   categories(currentPage: Int = 1, filters: FilterCategoryInput!, perPage: Int = 10): PaginatedCategoryResponse!
@@ -290,12 +434,13 @@ type Query {
   city(active: Boolean, id: Float!): City!
   group(active: Boolean, id: Float!): Group!
   groups(currentPage: Int = 1, filters: FilterGroupInput!, perPage: Int = 10): PaginatedGroupResponse!
-  product(id: Int!): Product!
-  products: [Product!]!
+  product(active: Boolean, id: Float!): Product!
+  products(currentPage: Int = 1, filters: FilterProductInput!, perPage: Int = 10): PaginatedProductResponse!
   state(active: Boolean, id: Float!): State!
   states(currentPage: Int = 1, filters: FilterStateInput!, perPage: Int = 10): PaginatedStateResponse!
   subGroup(active: Boolean, id: Float!): SubGroup!
   subGroups(currentPage: Int = 1, filters: FilterSubGroupInput!, perPage: Int = 10): PaginatedSubGroupResponse!
+  supplier(active: Boolean, id: Float!): Supplier!
   user(active: Boolean, id: Float!): User!
   users(currentPage: Int = 1, filters: FilterUserInput!, perPage: Int = 10): PaginatedUserResponse!
 }
@@ -321,6 +466,26 @@ type SubGroup {
   deletedUser: Int
   description: String!
   id: Int!
+  updatedAt: DateTime!
+  updatedUser: Int
+}
+
+type Supplier {
+  active: Boolean!
+  address: String!
+  addressNumber: Float!
+  categorySupplier: String!
+  cep: String!
+  cnpj: String!
+  createdAt: DateTime!
+  createdUser: Int!
+  deletedAt: DateTime!
+  deletedUser: Int
+  district: String!
+  email: String!
+  id: Int!
+  name: String!
+  phoneNumber: String!
   updatedAt: DateTime!
   updatedUser: Int
 }
@@ -354,9 +519,36 @@ input UpdateGroupInput {
 }
 
 input UpdateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  active: Boolean = true
+  altura: Float
+  amount: Float
+  brandId: Float
+  categoryId: Float
+  cfopOther: Float
+  cfopSame: Float
+  color: String
+  comprimento: Float
+  condicao: String
+  country: Float
+  csosn: Float
+  description: String
+  ean: String
+  largura: Float
+  material: Float
+  measure: String
+  name: String
+  ncm: Float
+  origem: Float
+  peso: Float
+  preEncomenda: Boolean = false
+  price: Float
+  skuPrincipal: String
+  stock: Float
+  typeWarranty: Float
+  unidadeMedida: String
+  updatedAt: DateTime
+  updatedUser: Int
+  warranty: Float
 }
 
 input UpdateStateInput {
@@ -371,6 +563,20 @@ input UpdateSubGroupInput {
   createdAt: DateTime
   createdUser: Int
   description: String
+  updatedAt: DateTime
+  updatedUser: Int
+}
+
+input UpdateSupplierInput {
+  address: String
+  addressNumber: Float
+  categorySupplier: String
+  cep: String
+  cnpj: String
+  district: String
+  email: String
+  name: String
+  phoneNumber: String
   updatedAt: DateTime
   updatedUser: Int
 }

@@ -116,6 +116,8 @@ export class UsersService {
     const { email, cityId, password, active, createdAt, createdUser, ...rest } =
       data
 
+    await this.verifyExistsEmailUser(email)
+
     const cryptPassword = await encryptPassword(password)
 
     const createdUserData = {
@@ -216,6 +218,20 @@ export class UsersService {
     }
 
     return this.userRepository.save({ ...user, ...data })
+  }
+
+  async verifyExistsEmailUser(email: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        email,
+      },
+    })
+
+    if (user) {
+      throw new NotFoundError('Email já existe na base de dados!')
+    }
+
+    return !!user
   }
 
   async ChangePassword(user: updatePasswordInput, context: Context) {

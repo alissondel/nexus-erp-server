@@ -1,4 +1,4 @@
-import { InputType, Field } from '@nestjs/graphql'
+import { InputType, Field, Int } from '@nestjs/graphql'
 import {
   IsBoolean,
   IsDate,
@@ -6,7 +6,6 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator'
-import { Int } from 'type-graphql'
 
 @InputType()
 export class CreateStateInput {

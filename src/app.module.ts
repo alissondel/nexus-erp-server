@@ -33,6 +33,9 @@ import { BrandEntity } from './modules/brands/entities/brand.entity'
 import { CategoryEntity } from './modules/categories/entities/category.entity'
 import { GroupEntity } from './modules/groups/entities/group.entity'
 import { SubGroupEntity } from './modules/sub_groups/entities/sub_group.entity'
+import { SuppliersModule } from './modules/suppliers/suppliers.module'
+import { SupplierEntity } from './modules/suppliers/entities/supplier.entity'
+import { ProductEntity } from './modules/products/entities/product.entity'
 
 // IMPORT DOTENV
 import * as dotenv from 'dotenv'
@@ -68,6 +71,8 @@ dotenv.config()
         CategoryEntity,
         GroupEntity,
         SubGroupEntity,
+        SupplierEntity,
+        ProductEntity,
       ],
       synchronize: true,
     }),
@@ -81,6 +86,7 @@ dotenv.config()
     GroupsModule,
     SubGroupsModule,
     ProductsModule,
+    SuppliersModule,
   ],
   controllers: [],
   providers: [],
